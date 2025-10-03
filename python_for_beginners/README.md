@@ -354,6 +354,22 @@ This course is open source and available for educational purposes.
 
 ---
 
+## 👨‍💻 About the Author
+
+**Vivek M. Agarwal** is a web development professional with over a decade of experience building innovative digital solutions. With expertise spanning front-end engineering, React, and modern AI technologies, Vivek is passionate about making technology education accessible and practical.
+
+**Connect:**
+- 🔗 [LinkedIn](https://www.linkedin.com/in/vivmagarwal/)
+- 🐙 [GitHub](https://github.com/vivmagarwal)
+
+**Professional Highlights:**
+- Acquia Certified Drupal-8 Front End Specialist
+- Extensive experience in web development and digital product strategy
+- Focused on AI, RAG pipelines, and cutting-edge technology innovation
+- Dedicated to creating educational resources that bridge theory and practice
+
+---
+
 ## 🌟 Acknowledgments
 
 This course was designed following pedagogical best practices for hands-on, project-based learning with a focus on real-world AI applications.

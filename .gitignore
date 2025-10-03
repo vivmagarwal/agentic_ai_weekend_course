@@ -8,3 +8,5 @@ temp/*
 /.project-management
 /.ccpro_sessions
 /experiments
+CLAUDE.md
+/claude-scripts

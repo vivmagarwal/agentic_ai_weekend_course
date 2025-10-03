@@ -1,0 +1,10 @@
+.DS_Store
+.env
+temp
+temp/*
+!.gitkeep
+/.claude
+/claude-project-management
+/.project-management
+/.ccpro_sessions
+/experiments

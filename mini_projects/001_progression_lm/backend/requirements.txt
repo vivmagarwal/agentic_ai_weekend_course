@@ -1,0 +1,22 @@
+# FastAPI framework and server
+fastapi
+uvicorn[standard]
+pydantic
+python-multipart
+
+# LangChain ecosystem
+langchain
+langchain-community
+langchain-openai
+langchain-tavily
+langchain-text-splitters
+
+# Vector store
+faiss-cpu
+
+# PDF processing
+pymupdf4llm
+pymupdf
+
+# Environment management
+python-dotenv

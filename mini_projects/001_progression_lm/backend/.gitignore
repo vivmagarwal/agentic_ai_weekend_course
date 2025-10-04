@@ -1,0 +1,13 @@
+# Environment variables
+.env
+
+# Runtime data
+data/
+__pycache__/
+*.pyc
+
+# OS files
+.DS_Store
+
+# Python virtual environment
+venv/

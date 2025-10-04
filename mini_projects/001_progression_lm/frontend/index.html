@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Progression LM</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Flowbite CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.css" rel="stylesheet" />
+
+    <!-- React and ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+
+    <!-- Babel Standalone for JSX -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Marked.js for Markdown -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <style>
+        /* Markdown Styles */
+        .markdown-content h1 { font-size: 1.875rem; font-weight: 700; margin-top: 1.5rem; margin-bottom: 1rem; }
+        .markdown-content h2 { font-size: 1.5rem; font-weight: 600; margin-top: 1.25rem; margin-bottom: 0.75rem; }
+        .markdown-content h3 { font-size: 1.25rem; font-weight: 600; margin-top: 1rem; margin-bottom: 0.5rem; }
+        .markdown-content p { margin-bottom: 1rem; line-height: 1.625; }
+        .markdown-content ul, .markdown-content ol { margin-left: 1.5rem; margin-bottom: 1rem; }
+        .markdown-content li { margin-bottom: 0.25rem; }
+        .markdown-content code { background-color: #f3f4f6; padding: 0.125rem 0.25rem; border-radius: 0.25rem; font-family: monospace; font-size: 0.875rem; }
+        .markdown-content pre { background-color: #1f2937; color: #f9fafb; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; margin-bottom: 1rem; }
+        .markdown-content pre code { background-color: transparent; color: inherit; padding: 0; }
+        .markdown-content blockquote { border-left: 4px solid #e5e7eb; padding-left: 1rem; margin-left: 0; margin-bottom: 1rem; color: #6b7280; }
+        .markdown-content strong { font-weight: 600; }
+        .markdown-content em { font-style: italic; }
+        .markdown-content a { color: #2563eb; text-decoration: underline; }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div id="root"></div>
+
+    <!-- Flowbite JS -->
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.js"></script>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        // API Configuration
+        const API_BASE_URL = 'http://localhost:8000/api/v1';
+
+        // API Service
+        const api = {
+            async uploadNotebook(name, pdfFile) {
+                const formData = new FormData();
+                formData.append('name', name);
+                formData.append('pdf', pdfFile);
+
+                const response = await fetch(`${API_BASE_URL}/upload`, {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.detail || 'Upload failed');
+                }
+
+                return await response.json();
+            },
+
+            async queryPDF(sessionId, question) {
+                const response = await fetch(`${API_BASE_URL}/query`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        session_id: sessionId,
+                        question: question,
+                        stream: false
+                    }),
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.detail || 'Query failed');
+                }
+
+                return await response.json();
+            },
+
+            async getNotebooks() {
+                const response = await fetch(`${API_BASE_URL}/notebooks`);
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch notebooks');
+                }
+
+                const data = await response.json();
+                return data.notebooks || [];
+            },
+
+            async deleteNotebook(notebookId) {
+                const response = await fetch(`${API_BASE_URL}/notebooks/${notebookId}`, {
+                    method: 'DELETE',
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.detail || 'Delete failed');
+                }
+
+                return await response.json();
+            },
+
+            getPDFUrl(notebookId, fileName) {
+                return `${API_BASE_URL}/notebooks/${notebookId}/pdf/${fileName}`;
+            }
+        };
+
+        // Message Component
+        function Message({ message, notebookId }) {
+            if (message.type === 'user') {
+                return (
+                    <div className="flex justify-end mb-4">
+                        <div className="bg-blue-500 text-white rounded-lg px-4 py-2 max-w-2xl">
+                            {message.content}
+                        </div>
+                    </div>
+                );
+            }
+
+            return (
+                <div className="flex justify-start mb-4">
+                    <div className="bg-white border border-gray-200 rounded-lg px-4 py-3 max-w-2xl">
+                        <div
+                            className="mb-2 markdown-content"
+                            dangerouslySetInnerHTML={{ __html: marked.parse(message.content || '') }}
+                        />
+
+                        {/* Badge */}
+                        {message.source && (
+                            <div className="mb-2">
+                                <span className={`inline-flex items-center px-2 py-1 text-xs font-medium rounded ${
+                                    message.source === 'pdf'
+                                        ? 'bg-green-100 text-green-800'
+                                        : 'bg-blue-100 text-blue-800'
+                                }`}>
+                                    {message.source === 'pdf' ? 'From PDF' : 'From Web'}
+                                </span>
+                            </div>
+                        )}
+
+                        {/* PDF Sources */}
+                        {message.pdfSources && message.pdfSources.length > 0 && (
+                            <div className="mt-3 pt-3 border-t border-gray-200">
+                                <div className="text-sm font-semibold text-gray-700 mb-2">PDF Sources:</div>
+                                <ul className="space-y-1">
+                                    {message.pdfSources.map((src, idx) => (
+                                        <li key={idx} className="text-sm">
+                                            <a
+                                                href={api.getPDFUrl(notebookId, src.file_name)}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="text-blue-600 hover:underline"
+                                            >
+                                                📄 {src.file_name}
+                                                {src.page_start && ` (pages ${src.page_start}${src.page_end !== src.page_start ? `-${src.page_end}` : ''})`}
+                                            </a>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
+
+                        {/* Web Sources */}
+                        {message.webSources && message.webSources.length > 0 && (
+                            <div className="mt-3 pt-3 border-t border-gray-200">
+                                <div className="text-sm font-semibold text-gray-700 mb-2">Web Sources:</div>
+                                <ul className="space-y-2">
+                                    {message.webSources.map((src, idx) => (
+                                        <li key={idx} className="text-sm">
+                                            <a
+                                                href={src.url}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="text-blue-600 hover:underline flex items-start"
+                                            >
+                                                <span className="mr-1">🔗</span>
+                                                <div>
+                                                    <div className="font-medium">{src.title}</div>
+                                                    <div className="text-gray-600 text-xs mt-1">{src.snippet}</div>
+                                                </div>
+                                            </a>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            );
+        }
+
+        // NotebookChat Component
+        function NotebookChat({ notebook, onBack }) {
+            const [messages, setMessages] = useState([]);
+            const [input, setInput] = useState('');
+            const [loading, setLoading] = useState(false);
+            const messagesEndRef = useRef(null);
+
+            const scrollToBottom = () => {
+                messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+            };
+
+            useEffect(() => {
+                scrollToBottom();
+            }, [messages]);
+
+            const handleSubmit = async (e) => {
+                e.preventDefault();
+                if (!input.trim() || loading) return;
+
+                const userMessage = {
+                    id: Date.now().toString(),
+                    type: 'user',
+                    content: input.trim(),
+                    timestamp: new Date()
+                };
+
+                setMessages(prev => [...prev, userMessage]);
+                setInput('');
+                setLoading(true);
+
+                try {
+                    const response = await api.queryPDF(notebook.id, userMessage.content);
+
+                    const assistantMessage = {
+                        id: (Date.now() + 1).toString(),
+                        type: 'assistant',
+                        content: response.answer,
+                        source: response.source,
+                        pdfSources: response.pdf_sources || [],
+                        webSources: response.web_sources || [],
+                        timestamp: new Date()
+                    };
+
+                    setMessages(prev => [...prev, assistantMessage]);
+                } catch (error) {
+                    const errorMessage = {
+                        id: (Date.now() + 1).toString(),
+                        type: 'assistant',
+                        content: `Error: ${error.message}`,
+                        timestamp: new Date()
+                    };
+                    setMessages(prev => [...prev, errorMessage]);
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            return (
+                <div className="flex flex-col h-screen">
+                    {/* Header */}
+                    <div className="bg-white border-b border-gray-200 px-6 py-4">
+                        <div className="flex items-center">
+                            <button
+                                onClick={onBack}
+                                className="mr-4 text-gray-600 hover:text-gray-900"
+                            >
+                                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                                </svg>
+                            </button>
+                            <h1 className="text-xl font-semibold text-gray-900">{notebook.name}</h1>
+                        </div>
+                    </div>
+
+                    {/* Messages */}
+                    <div className="flex-1 overflow-y-auto px-6 py-4">
+                        {messages.length === 0 ? (
+                            <div className="text-center text-gray-500 mt-20">
+                                <p className="text-lg mb-2">Start a conversation</p>
+                                <p className="text-sm">Ask questions about your PDF</p>
+                            </div>
+                        ) : (
+                            <>
+                                {messages.map((message) => (
+                                    <Message key={message.id} message={message} notebookId={notebook.id} />
+                                ))}
+                                {loading && (
+                                    <div className="flex justify-start mb-4">
+                                        <div className="bg-white border border-gray-200 rounded-lg px-4 py-2">
+                                            <div className="flex space-x-2">
+                                                <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                                                <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
+                                                <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+                                <div ref={messagesEndRef} />
+                            </>
+                        )}
+                    </div>
+
+                    {/* Input */}
+                    <div className="border-t border-gray-200 px-6 py-4 bg-white">
+                        <form onSubmit={handleSubmit} className="flex gap-2">
+                            <input
+                                type="text"
+                                value={input}
+                                onChange={(e) => setInput(e.target.value)}
+                                placeholder="Ask a question..."
+                                disabled={loading}
+                                className="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            />
+                            <button
+                                type="submit"
+                                disabled={loading || !input.trim()}
+                                className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed"
+                            >
+                                Send
+                            </button>
+                        </form>
+                        <p className="text-xs text-gray-500 mt-2">Press Enter to send</p>
+                    </div>
+                </div>
+            );
+        }
+
+        // CreateNotebookModal Component
+        function CreateNotebookModal({ isOpen, onClose, onSuccess }) {
+            const [name, setName] = useState('');
+            const [file, setFile] = useState(null);
+            const [loading, setLoading] = useState(false);
+            const [error, setError] = useState('');
+
+            const handleSubmit = async (e) => {
+                e.preventDefault();
+                if (!name.trim() || !file) return;
+
+                setLoading(true);
+                setError('');
+
+                try {
+                    await api.uploadNotebook(name.trim(), file);
+                    onSuccess();
+                    setName('');
+                    setFile(null);
+                } catch (err) {
+                    setError(err.message);
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            if (!isOpen) return null;
+
+            return (
+                <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50">
+                    <div className="bg-white rounded-lg p-6 w-full max-w-md">
+                        <h2 className="text-xl font-semibold mb-4">Create New Notebook</h2>
+
+                        {error && (
+                            <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+                                {error}
+                            </div>
+                        )}
+
+                        <form onSubmit={handleSubmit}>
+                            <div className="mb-4">
+                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    Notebook Name
+                                </label>
+                                <input
+                                    type="text"
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    required
+                                />
+                            </div>
+
+                            <div className="mb-6">
+                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    PDF File
+                                </label>
+                                <input
+                                    type="file"
+                                    accept=".pdf"
+                                    onChange={(e) => setFile(e.target.files[0])}
+                                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    required
+                                />
+                            </div>
+
+                            <div className="flex gap-3">
+                                <button
+                                    type="button"
+                                    onClick={onClose}
+                                    disabled={loading}
+                                    className="flex-1 border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-50 disabled:opacity-50"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    type="submit"
+                                    disabled={loading || !name.trim() || !file}
+                                    className="flex-1 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed"
+                                >
+                                    {loading ? 'Creating...' : 'Create'}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            );
+        }
+
+        // Home Component
+        function Home({ onNotebookClick, onCreateClick }) {
+            const [notebooks, setNotebooks] = useState([]);
+            const [loading, setLoading] = useState(true);
+
+            const fetchNotebooks = async () => {
+                setLoading(true);
+                try {
+                    const data = await api.getNotebooks();
+                    setNotebooks(data);
+                } catch (error) {
+                    console.error('Failed to fetch notebooks:', error);
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            useEffect(() => {
+                fetchNotebooks();
+            }, []);
+
+            return (
+                <div className="min-h-screen bg-gray-50">
+                    {/* Header */}
+                    <div className="bg-white border-b border-gray-200 px-6 py-4">
+                        <div className="max-w-7xl mx-auto flex justify-between items-center">
+                            <h1 className="text-2xl font-bold text-gray-900">Progression LM</h1>
+                            <button
+                                onClick={onCreateClick}
+                                className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 flex items-center gap-2"
+                            >
+                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                                </svg>
+                                Create Notebook
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Content */}
+                    <div className="max-w-7xl mx-auto px-6 py-8">
+                        {loading ? (
+                            <div className="text-center py-20">
+                                <div className="text-gray-500">Loading notebooks...</div>
+                            </div>
+                        ) : (
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                {/* Create New Card */}
+                                <button
+                                    onClick={onCreateClick}
+                                    className="border-2 border-dashed border-gray-300 rounded-lg p-6 hover:border-blue-500 hover:bg-blue-50 transition-colors flex flex-col items-center justify-center min-h-[150px]"
+                                >
+                                    <svg className="w-12 h-12 text-gray-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                                    </svg>
+                                    <div className="text-gray-600 font-medium">Create new notebook</div>
+                                </button>
+
+                                {/* Notebook Cards */}
+                                {notebooks.map((notebook) => (
+                                    <div
+                                        key={notebook.id}
+                                        className="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-shadow relative group"
+                                    >
+                                        <button
+                                            onClick={() => onNotebookClick(notebook)}
+                                            className="text-left w-full"
+                                        >
+                                            <h3 className="font-semibold text-gray-900 mb-2">{notebook.name}</h3>
+                                            <p className="text-sm text-gray-500">
+                                                {new Date(notebook.created_at).toLocaleDateString()}
+                                            </p>
+                                            <p className="text-sm text-gray-500 mt-1">
+                                                • {notebook.sources_count} source(s)
+                                            </p>
+                                        </button>
+
+                                        {/* Delete Button */}
+                                        <button
+                                            onClick={async (e) => {
+                                                e.stopPropagation();
+                                                if (confirm(`Delete "${notebook.name}"?`)) {
+                                                    try {
+                                                        await api.deleteNotebook(notebook.id);
+                                                        fetchNotebooks();
+                                                    } catch (error) {
+                                                        alert('Failed to delete: ' + error.message);
+                                                    }
+                                                }
+                                            }}
+                                            className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity p-2 rounded-lg hover:bg-red-50 text-red-600"
+                                            title="Delete notebook"
+                                        >
+                                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+
+                        {notebooks.length === 0 && !loading && (
+                            <div className="text-center py-20 text-gray-500">
+                                <p className="text-lg mb-2">No notebooks yet</p>
+                                <p className="text-sm">Create your first notebook to get started</p>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            );
+        }
+
+        // Main App Component
+        function App() {
+            const [view, setView] = useState('home'); // 'home' or 'chat'
+            const [selectedNotebook, setSelectedNotebook] = useState(null);
+            const [modalOpen, setModalOpen] = useState(false);
+
+            const handleNotebookClick = (notebook) => {
+                setSelectedNotebook(notebook);
+                setView('chat');
+            };
+
+            const handleBack = () => {
+                setView('home');
+                setSelectedNotebook(null);
+            };
+
+            const handleCreateSuccess = () => {
+                setModalOpen(false);
+                setView('home');
+                // Force refresh by re-rendering Home component
+                window.location.reload();
+            };
+
+            return (
+                <>
+                    {view === 'home' ? (
+                        <Home
+                            onNotebookClick={handleNotebookClick}
+                            onCreateClick={() => setModalOpen(true)}
+                        />
+                    ) : (
+                        <NotebookChat
+                            notebook={selectedNotebook}
+                            onBack={handleBack}
+                        />
+                    )}
+
+                    <CreateNotebookModal
+                        isOpen={modalOpen}
+                        onClose={() => setModalOpen(false)}
+                        onSuccess={handleCreateSuccess}
+                    />
+                </>
+            );
+        }
+
+        // Render App
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>

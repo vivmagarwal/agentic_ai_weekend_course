@@ -7,7 +7,7 @@ Hands-on projects that apply Python skills to real-world AI scenarios. Each proj
 ## 📋 Projects List
 
 ### Project 001: PDF RAG System
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/vivmagarwal/agentic_ai_weekend_course/blob/main/mini_projects/project_001_pdf_RAG.ipynb)
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/vivmagarwal/agentic_ai_weekend_course/blob/main/mini_projects/001_progression_lm/progression_lm.ipynb)
 
 **Description:**
 Build a complete Retrieval-Augmented Generation (RAG) system for PDF documents. This project demonstrates how to extract text from PDFs, create embeddings, store them in a vector database, and query the system using natural language.

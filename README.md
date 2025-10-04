@@ -97,7 +97,13 @@ By the end of this course, you'll be able to:
 
 ## 👨‍💻 About the Author
 
-**Vivek M. Agarwal** is a web development professional with over a decade of experience building innovative digital solutions. With expertise spanning front-end engineering, React, and modern AI technologies, Vivek is passionate about making technology education accessible and practical.
+I'm **Vivek Agarwal**, a technologist and educator with 20+ years of engineering experience, starting with my first application in 1999. I currently lead two business units at Axelerant Technologies—as Director of Learning & Development and Director of Curriculum at ProgressionSchool—where I specialize in building industry-ready AI education programs.
+
+As Director of Pedagogy & Curriculum at Masai School, I transformed the learner experience by introducing mastery-based assessments, aligning curriculum with industry standards, and redesigning pedagogy to emphasize practical, real-world applications. Through this work, I trained 6,000+ engineers in JavaScript, MERN, and AI development, fundamentally improving learning outcomes and job readiness.
+
+My expertise spans JavaScript, React, Next.js, Python, FastAPI, and cutting-edge AI frameworks including LangChain, RAG systems, and Multi-Agent AI.
+
+**My mission:** Transform engineers into future-ready Full-Stack GenAI professionals through hands-on, accessible education—no prerequisites required.
 
 **Connect:**
 - 🔗 [LinkedIn](https://www.linkedin.com/in/vivmagarwal/)

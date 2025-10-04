@@ -47,8 +47,8 @@
     <script type="text/babel">
         const { useState, useEffect, useRef } = React;
 
-        // API Configuration
-        const API_BASE_URL = 'http://localhost:8000/api/v1';
+        // API Configuration - uses current page's port dynamically
+        const API_BASE_URL = `${window.location.origin}/api/v1`;
 
         // API Service
         const api = {

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Finder Chat</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes circularPulse {
+            0% { transform: scale(1) translate(0, 0); }
+            25% { transform: scale(1.2) translate(2px, -2px); }
+            50% { transform: scale(1) translate(2px, 2px); }
+            75% { transform: scale(1.2) translate(-2px, 2px); }
+            100% { transform: scale(1) translate(0, 0); }
+        }
+        .search-icon-animated {
+            display: inline-block;
+            animation: circularPulse 1s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="min-h-screen flex flex-col">
+        <!-- Header -->
+        <div class="bg-blue-600 text-white p-4 shadow-md">
+            <div class="max-w-4xl mx-auto">
+                <h1 class="text-2xl font-bold">Restaurant Finder</h1>
+                <p class="text-sm text-blue-100">Find restaurants using natural language</p>
+            </div>
+        </div>
+
+        <!-- Chat Container -->
+        <div class="flex-1 max-w-4xl w-full mx-auto p-4 flex flex-col">
+            <!-- Messages Area -->
+            <div id="messages" class="flex-1 overflow-y-auto mb-4 space-y-4 pb-4">
+                <!-- Welcome message -->
+                <div class="flex justify-start">
+                    <div class="bg-gray-200 rounded-lg p-4 max-w-md">
+                        <p class="text-gray-800">👋 Hi! I can help you find restaurants. Try asking something like:</p>
+                        <ul class="mt-2 text-sm text-gray-600 list-disc list-inside">
+                            <li>"indian veg food in bangalore"</li>
+                            <li>"italian restaurants near downtown"</li>
+                            <li>"chinese food in san francisco"</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input Form -->
+            <div class="bg-white rounded-lg shadow-md p-4">
+                <form id="search-form" class="flex gap-2">
+                    <input
+                        type="text"
+                        id="query-input"
+                        placeholder="e.g., italian veg food in bangalore..."
+                        class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        required
+                    />
+                    <button
+                        type="submit"
+                        id="submit-btn"
+                        class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors min-w-[100px]"
+                    >
+                        Search
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const messagesDiv = document.getElementById('messages');
+        const searchForm = document.getElementById('search-form');
+        const queryInput = document.getElementById('query-input');
+        const submitBtn = document.getElementById('submit-btn');
+        let loadingInterval = null;
+
+        // Auto-scroll to bottom
+        function scrollToBottom() {
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+
+        // Add user message
+        function addUserMessage(text) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'flex justify-end';
+            messageDiv.innerHTML = `
+                <div class="bg-blue-600 text-white rounded-lg p-4 max-w-md">
+                    <p>${escapeHtml(text)}</p>
+                </div>
+            `;
+            messagesDiv.appendChild(messageDiv);
+            scrollToBottom();
+        }
+
+        // Add bot message
+        function addBotMessage(html) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'flex justify-start';
+            messageDiv.innerHTML = `
+                <div class="bg-gray-200 rounded-lg p-4 max-w-2xl w-full">
+                    ${html}
+                </div>
+            `;
+            messagesDiv.appendChild(messageDiv);
+            scrollToBottom();
+        }
+
+        // Add loading indicator
+        function addLoadingIndicator() {
+            const loadingDiv = document.createElement('div');
+            loadingDiv.id = 'loading';
+            loadingDiv.className = 'flex justify-start';
+            loadingDiv.innerHTML = `
+                <div class="bg-gray-200 rounded-lg p-4">
+                    <div class="flex items-center space-x-2">
+                        <div class="search-icon-animated">🔍</div>
+                        <p class="text-gray-600">Searching restaurants...</p>
+                    </div>
+                </div>
+            `;
+            messagesDiv.appendChild(loadingDiv);
+            scrollToBottom();
+            return loadingDiv;
+        }
+
+        // Create restaurant card
+        function createRestaurantCard(restaurant) {
+            const fields = [];
+
+            if (restaurant.cuisine) fields.push(`<span class="text-gray-600">🍽️ ${escapeHtml(restaurant.cuisine)}</span>`);
+            if (restaurant.rating) fields.push(`<span class="text-gray-600">⭐ ${escapeHtml(restaurant.rating)}</span>`);
+            if (restaurant.price) fields.push(`<span class="text-gray-600">💰 ${escapeHtml(restaurant.price)}</span>`);
+
+            return `
+                <div class="border border-gray-300 rounded-lg p-4 bg-white">
+                    <h3 class="font-bold text-lg text-gray-900 mb-2 break-words">${escapeHtml(restaurant.name)}</h3>
+                    <p class="text-sm text-gray-600 mb-2 break-words">📍 ${escapeHtml(restaurant.address)}</p>
+                    <div class="flex flex-wrap gap-2 mb-3 text-sm">
+                        ${fields.join('')}
+                    </div>
+                    <p class="text-gray-700 text-sm mb-3 break-words">${escapeHtml(restaurant.description)}</p>
+                    ${restaurant.hours ? `<p class="text-sm text-gray-600 break-words">🕒 ${escapeHtml(restaurant.hours)}</p>` : ''}
+                    ${restaurant.phone ? `<p class="text-sm text-gray-600 break-words">📞 ${escapeHtml(restaurant.phone)}</p>` : ''}
+                    ${restaurant.website ? `<p class="text-sm break-all"><a href="${escapeHtml(restaurant.website)}" target="_blank" class="text-blue-600 hover:underline">🌐 Visit Website</a></p>` : ''}
+                </div>
+            `;
+        }
+
+        // Escape HTML
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Handle form submission
+        searchForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const query = queryInput.value.trim();
+            if (!query) return;
+
+            // Add user message
+            addUserMessage(query);
+
+            // Clear input
+            queryInput.value = '';
+
+            // Disable submit button and show loading dots
+            submitBtn.disabled = true;
+            let dots = '';
+            loadingInterval = setInterval(() => {
+                dots = dots.length >= 3 ? '' : dots + '.';
+                submitBtn.textContent = 'Searching' + dots;
+            }, 400);
+
+            // Add loading indicator
+            const loadingDiv = addLoadingIndicator();
+
+            try {
+                const response = await fetch('/api/search', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ query }),
+                });
+
+                // Remove loading indicator
+                loadingDiv.remove();
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.detail || 'Search failed');
+                }
+
+                const data = await response.json();
+
+                if (data.restaurants && data.restaurants.length > 0) {
+                    const restaurantsHtml = `
+                        <p class="text-gray-800 mb-3">Found ${data.restaurants.length} restaurant${data.restaurants.length > 1 ? 's' : ''}:</p>
+                        <div class="space-y-3">
+                            ${data.restaurants.map(r => createRestaurantCard(r)).join('')}
+                        </div>
+                        <p class="text-xs text-gray-500 mt-3">⏱️ Search took ${data.processing_time}s</p>
+                    `;
+                    addBotMessage(restaurantsHtml);
+                } else {
+                    addBotMessage('<p class="text-gray-600">No restaurants found. Try a different query!</p>');
+                }
+
+            } catch (error) {
+                // Remove loading indicator
+                if (loadingDiv.parentNode) {
+                    loadingDiv.remove();
+                }
+
+                // Show error
+                addBotMessage(`
+                    <p class="text-red-600">❌ Error: ${escapeHtml(error.message)}</p>
+                    <p class="text-sm text-gray-600 mt-2">Please try again or rephrase your query.</p>
+                `);
+            } finally {
+                // Clear loading animation
+                if (loadingInterval) {
+                    clearInterval(loadingInterval);
+                    loadingInterval = null;
+                }
+                // Re-enable submit button
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Search';
+            }
+        });
+    </script>
+</body>
+</html>

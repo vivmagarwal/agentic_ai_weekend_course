@@ -517,6 +517,20 @@ async def get_pdf(notebook_id: str, file_name: str):
         headers={"Content-Disposition": f"inline; filename={file_name}"}
     )
 
+def find_available_port(start_port=8000, max_attempts=10):
+    """Find an available port starting from start_port"""
+    import socket
+    for port in range(start_port, start_port + max_attempts):
+        try:
+            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+                s.bind(('0.0.0.0', port))
+                return port
+        except OSError:
+            continue
+    raise RuntimeError(f"Could not find available port in range {start_port}-{start_port + max_attempts}")
+
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=PORT)
+    port = find_available_port(PORT)
+    print(f"🚀 Starting Progression LM on http://localhost:{port}")
+    uvicorn.run(app, host="0.0.0.0", port=port)

@@ -5,6 +5,7 @@ temp/*
 !.gitkeep
 /.claude
 /claude-project-management
+/.claude-project-management
 /.project-management
 /.ccpro_sessions
 /experiments

@@ -11,55 +11,55 @@ This course teaches LangChain through a proven **teach-practice-teach-practice**
 Click any badge to open the notebook directly in Google Colab:
 
 ### Module 00: Introduction and Setup
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/vivmagarwal/agentic_ai_course_uwc/blob/main/langchain_for_beginners/notebooks/00_introduction_and_setup.ipynb)
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/vivmagarwal/agentic_ai_weekend_course/blob/main/langchain_for_beginners/notebooks/00_introduction_and_setup.ipynb)
 Get started with LangChain, set up your environment, and make your first API calls.
 
 ### Module 01: Basic LLM Calls
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/vivmagarwal/agentic_ai_course_uwc/blob/main/langchain_for_beginners/notebooks/01_basic_llm_calls.ipynb)
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/vivmagarwal/agentic_ai_weekend_course/blob/main/langchain_for_beginners/notebooks/01_basic_llm_calls.ipynb)
 Master different message types, multi-turn conversations, and provider flexibility.
 
 ### Module 02: Prompts & Templates
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/vivmagarwal/agentic_ai_course_uwc/blob/main/langchain_for_beginners/notebooks/02_prompts_and_templates.ipynb)
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/vivmagarwal/agentic_ai_weekend_course/blob/main/langchain_for_beginners/notebooks/02_prompts_and_templates.ipynb)
 Create reusable, dynamic prompts and implement effective prompt engineering.
 
 ### Module 03: Chains & LCEL
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/vivmagarwal/agentic_ai_course_uwc/blob/main/langchain_for_beginners/notebooks/03_chains_and_lcel.ipynb)
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/vivmagarwal/agentic_ai_weekend_course/blob/main/langchain_for_beginners/notebooks/03_chains_and_lcel.ipynb)
 Build complex workflows using LangChain Expression Language.
 
 ### Module 04: Output Parsing
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/vivmagarwal/agentic_ai_course_uwc/blob/main/langchain_for_beginners/notebooks/04_output_parsing.ipynb)
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/vivmagarwal/agentic_ai_weekend_course/blob/main/langchain_for_beginners/notebooks/04_output_parsing.ipynb)
 Structure LLM outputs with parsers and Pydantic models.
 
 ### Module 05: Document Loading & Splitting
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/vivmagarwal/agentic_ai_course_uwc/blob/main/langchain_for_beginners/notebooks/05_document_loading.ipynb)
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/vivmagarwal/agentic_ai_weekend_course/blob/main/langchain_for_beginners/notebooks/05_document_loading.ipynb)
 Process PDFs, websites, and text files effectively.
 
 ### Module 06: Embeddings & Vector Stores
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/vivmagarwal/agentic_ai_course_uwc/blob/main/langchain_for_beginners/notebooks/06_embeddings_and_vectors.ipynb)
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/vivmagarwal/agentic_ai_weekend_course/blob/main/langchain_for_beginners/notebooks/06_embeddings_and_vectors.ipynb)
 Understand semantic search fundamentals and vector databases.
 
 ### Module 07: RAG Systems
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/vivmagarwal/agentic_ai_course_uwc/blob/main/langchain_for_beginners/notebooks/07_rag_systems.ipynb)
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/vivmagarwal/agentic_ai_weekend_course/blob/main/langchain_for_beginners/notebooks/07_rag_systems.ipynb)
 Build complete Retrieval Augmented Generation applications.
 
 ### Module 08: Tools & Agents
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/vivmagarwal/agentic_ai_course_uwc/blob/main/langchain_for_beginners/notebooks/08_tools_and_agents.ipynb)
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/vivmagarwal/agentic_ai_weekend_course/blob/main/langchain_for_beginners/notebooks/08_tools_and_agents.ipynb)
 Create autonomous AI agents with custom tools.
 
 ### Module 09: Memory & Conversations
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/vivmagarwal/agentic_ai_course_uwc/blob/main/langchain_for_beginners/notebooks/09_memory_and_conversations.ipynb)
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/vivmagarwal/agentic_ai_weekend_course/blob/main/langchain_for_beginners/notebooks/09_memory_and_conversations.ipynb)
 Manage chat history and conversation context effectively.
 
 ### Module 10: Streaming & Real-time
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/vivmagarwal/agentic_ai_course_uwc/blob/main/langchain_for_beginners/notebooks/10_streaming_and_realtime.ipynb)
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/vivmagarwal/agentic_ai_weekend_course/blob/main/langchain_for_beginners/notebooks/10_streaming_and_realtime.ipynb)
 Implement streaming for better user experience.
 
 ### Module 11: Advanced Patterns
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/vivmagarwal/agentic_ai_course_uwc/blob/main/langchain_for_beginners/notebooks/11_advanced_patterns.ipynb)
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/vivmagarwal/agentic_ai_weekend_course/blob/main/langchain_for_beginners/notebooks/11_advanced_patterns.ipynb)
 Master batch processing, parallel execution, and optimization.
 
 ### Module 12: Production Deployment
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/vivmagarwal/agentic_ai_course_uwc/blob/main/langchain_for_beginners/notebooks/12_production_deployment.ipynb)
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/vivmagarwal/agentic_ai_weekend_course/blob/main/langchain_for_beginners/notebooks/12_production_deployment.ipynb)
 Deploy production-ready LLM applications with proper error handling.
 
 ## 📚 What You'll Learn

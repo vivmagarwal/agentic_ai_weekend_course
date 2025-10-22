@@ -57,6 +57,35 @@ The course follows a progressive learning path, with each notebook building on p
 
 ---
 
+### Notebook 2.1: AI-Enabled Input/Output
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/vivmagarwal/agentic_ai_weekend_course/blob/main/python_for_beginners/notebooks/02.01_ai_enabled_input_output.ipynb)
+
+**Topics Covered:**
+- Understanding APIs vs User Interfaces (UI)
+- Installing packages with pip (`google-generativeai`)
+- Importing packages and using aliases
+- Getting and configuring API keys for authentication
+- Making your first LLM API call
+- Building interactive AI-powered Q&A programs
+
+**Learning Objectives:**
+- Understand the difference between User Interfaces (UI) and Application Programming Interfaces (API)
+- Install and import external Python packages using pip
+- Set up and authenticate with an AI API using API keys
+- Make your first API call to a Large Language Model (LLM)
+- Create an interactive AI-powered question-answering program
+
+**AI/RAG/Agentic Applications:**
+- APIs as the foundation of all AI integrations
+- Sending prompts to LLMs and receiving generated responses
+- Building the "generation" component of RAG pipelines
+- Creating the foundation for AI agents that use LLMs as their "brain"
+- Understanding how chatbots and AI assistants work under the hood
+
+**🎉 Milestone:** Build your first AI-powered application that can answer any question!
+
+---
+
 ### Notebook 3: Functions
 [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/vivmagarwal/agentic_ai_weekend_course/blob/main/python_for_beginners/notebooks/03_functions.ipynb)
 

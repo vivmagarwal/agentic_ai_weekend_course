@@ -57,30 +57,63 @@ The course follows a progressive learning path, with each notebook building on p
 
 ---
 
-### Notebook 2.1: AI-Enabled Input/Output
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/vivmagarwal/agentic_ai_weekend_course/blob/main/python_for_beginners/notebooks/02.01_ai_enabled_input_output.ipynb)
+### Notebook 2.1: Generating and Storing API Keys
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/vivmagarwal/agentic_ai_weekend_course/blob/main/python_for_beginners/notebooks/02.01_generating_and_storing_api_keys.ipynb)
 
 **Topics Covered:**
 - Understanding APIs vs User Interfaces (UI)
-- Installing packages with pip (`google-generativeai`)
-- Importing packages and using aliases
-- Getting and configuring API keys for authentication
-- Making your first LLM API call
-- Building interactive AI-powered Q&A programs
+- Generating a free Gemini API key from Google AI Studio
+- Four methods to store API keys in Google Colab:
+  - Direct variable assignment (not recommended)
+  - Colab Secrets (recommended for Colab)
+  - Getpass (good for learning/sharing)
+  - Environment variables (professional standard)
+- Security best practices for API key management
 
 **Learning Objectives:**
 - Understand the difference between User Interfaces (UI) and Application Programming Interfaces (API)
-- Install and import external Python packages using pip
-- Set up and authenticate with an AI API using API keys
-- Make your first API call to a Large Language Model (LLM)
-- Create an interactive AI-powered question-answering program
+- Generate a free Gemini API key from Google AI Studio
+- Store API keys securely using multiple methods in Google Colab
+- Choose the right method for different scenarios
+- Understand environment variables and their importance
 
 **AI/RAG/Agentic Applications:**
 - APIs as the foundation of all AI integrations
-- Sending prompts to LLMs and receiving generated responses
-- Building the "generation" component of RAG pipelines
-- Creating the foundation for AI agents that use LLMs as their "brain"
-- Understanding how chatbots and AI assistants work under the hood
+- API keys for secure, authenticated access to AI services
+- Proper key management prevents unauthorized access
+- Professional security practices for production applications
+
+---
+
+### Notebook 2.2: AI-Enabled Input/Output
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/vivmagarwal/agentic_ai_weekend_course/blob/main/python_for_beginners/notebooks/02.02_ai_enabled_input_output.ipynb)
+
+**Topics Covered:**
+- The 5-step toolbox process for using AI APIs:
+  1. Purchase (Install package)
+  2. Pick Out (Import library)
+  3. Configure (Set up authentication)
+  4. Select Head (Create model instance)
+  5. Use (Generate content)
+- Installing packages with pip (`google-generativeai`)
+- Importing packages and using aliases
+- Making your first LLM API call
+- Building interactive AI-powered Q&A programs
+- Combining user input with AI responses
+
+**Learning Objectives:**
+- Install and import external Python packages
+- Set up and authenticate with an AI API
+- Make API calls to a Large Language Model (LLM)
+- Create interactive AI-powered applications
+- Combine user input with AI responses for real-world use cases
+
+**AI/RAG/Agentic Applications:**
+- Understanding the API workflow for all AI integrations
+- Building the "generation" part of Retrieval-Augmented Generation
+- LLM APIs as the "brain" for AI agents
+- Foundation for chatbots and AI assistants
+- Prompt engineering for better AI responses
 
 **🎉 Milestone:** Build your first AI-powered application that can answer any question!
 

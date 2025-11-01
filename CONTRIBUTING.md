@@ -212,6 +212,35 @@ Every concept must connect to real-world applications:
 - Tool calling
 - Conversation memory
 
+### AI Model Selection
+
+When creating notebooks that use AI models (Gemini, OpenAI, etc.):
+
+1. **Check the current date**: Before making claims about "latest" or "current" models, verify the date
+   - Run `date` command to get current date and time
+   - AI models evolve rapidly - what's "latest" changes frequently
+   - Consider the temporal context when reviewing documentation
+
+2. **Research current models**: Always check the official documentation for the latest available and supported models
+   - Gemini models: https://ai.google.dev/gemini-api/docs/models
+   - Verify model availability, capabilities, and any deprecation notices
+   - Check documentation publish/update date to ensure it's recent
+
+3. **Use the latest stable model**: If `gemini-2.5-flash` (or the latest Flash model) is available, supported, and suitable for educational purposes, use it
+   - Flash models are optimized for speed and cost-effectiveness
+   - Perfect for beginners learning AI concepts
+   - Check the documentation to confirm it's the current recommended model
+
+4. **Model selection criteria**:
+   - **Stability**: Use stable releases, not experimental versions (unless explicitly teaching about cutting-edge features)
+   - **Availability**: Ensure the model is widely available in the free tier
+   - **Performance**: Balance speed, cost, and capability for learning exercises
+   - **Simplicity**: Choose models that work well for beginners without complex configuration
+
+5. **Document your choice**: When using a specific model in notebooks, briefly explain why (e.g., "gemini-2.5-flash is the latest stable model optimized for speed and cost as of [date]")
+
+**Important**: Always research before making model selection claims. Use the official documentation as the source of truth, not assumptions or outdated knowledge.
+
 ### Writing Style
 
 - **Beginner-friendly yet accurate**: Simplify without sacrificing correctness
@@ -299,6 +328,8 @@ Before submitting:
 - [ ] Progressive scaffolding evident
 - [ ] README.md updated with Colab badge
 - [ ] Teaching plan status table updated
+- [ ] AI models are current (checked against official documentation)
+- [ ] Using latest stable Gemini model (e.g., `gemini-2.5-flash`) if applicable
 
 ## Key Principles to Remember
 

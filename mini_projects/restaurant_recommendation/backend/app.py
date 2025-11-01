@@ -33,7 +33,7 @@ tavily_client = AsyncTavilyClient(api_key=TAVILY_API_KEY) if TAVILY_API_KEY else
 # Initialize Gemini client (free tier)
 if GOOGLE_API_KEY:
     genai.configure(api_key=GOOGLE_API_KEY)
-    gemini_model = genai.GenerativeModel('gemini-2.0-flash-exp')
+    gemini_model = genai.GenerativeModel('gemini-2.5-flash-exp')
 else:
     gemini_model = None
 

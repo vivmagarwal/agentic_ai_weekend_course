@@ -314,6 +314,55 @@ For complex logic, add trace-through cells:
 4. Final result will be...
 ```
 
+### Section Separation and Visual Organization
+
+**Critical**: Separate code cells and text cells. After a solution, start a new text cell for the next section.
+
+**Formatting Rules**:
+- Start each text cell with `---` (three dashes) for clear visual division
+- Use `---` to divide every major section
+- **IMPORTANT**: Add `---` after each solution cell and before the next example/exercise
+- Make H1 titles **bold** using `# **Title Text**`
+- Make H2 subheadings **bold** using `## **Heading Text**`
+- Make H3 subheadings **bold** using `### **Heading Text**`
+- Keep text concise - only absolutely necessary information
+- Organize like a well-structured blog post or lesson
+
+**Example Structure**:
+```markdown
+---
+
+## **Type Conversion - Converting Between Data Types**
+
+### **Why Type Conversion Matters**
+When we get input from users, it's **always a string**. If we want to do math operations, we need to convert strings to numbers. Similarly, sometimes we need to convert numbers back to strings for formatting.
+
+**Common Type Conversions:**
+- `int()` - Converts to integer (whole number)
+- `float()` - Converts to decimal number
+- `str()` - Converts to string (text)
+```
+
+**Example/Solution Pattern**:
+```markdown
+### **Example 1: Creating a Simple List**
+
+[Problem description and code cell]
+
+<details>
+<summary>Solution</summary>
+[Solution code and explanation]
+</details>
+
+---
+
+### **Example 2: Lists with Different Data Types**
+
+[Next example...]
+```
+
+**Goal**: Maximum readability with clear visual separation between sections, activities, and topics. The `---` after each solution provides a clean visual break before the next example begins.
+
 ## Testing and Validation
 
 Before submitting:

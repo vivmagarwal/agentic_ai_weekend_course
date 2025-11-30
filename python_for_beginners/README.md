@@ -164,6 +164,36 @@ The course follows a progressive learning path, with each notebook building on p
 
 ---
 
+### Notebook 4.1: If-Else & For Loops
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/vivmagarwal/agentic_ai_weekend_course/blob/main/python_for_beginners/notebooks/04.01_if_else_for_loops.ipynb)
+
+**Topics Covered:**
+- Understanding indentation and code blocks
+- Basic for loops over lists
+- If-else statements inside loops
+- The range() function
+- Star patterns with string multiplication
+- Nested loops
+- Counters with conditionals
+- String validation (character-by-character processing)
+
+**Learning Objectives:**
+- Understand the colon and indentation in Python
+- Write for loops to iterate over lists and ranges
+- Use if-else inside loops for conditional processing
+- Create patterns using loops
+- Write nested loops for 2D processing
+- Validate strings character by character
+
+**AI/RAG/Agentic Applications:**
+- Process batches of data with conditional logic
+- Filter and categorize model predictions
+- Validate user inputs before AI processing
+- Implement access control patterns
+- Build password/input validators
+
+---
+
 ### Notebook 5: Dictionaries and Conditionals
 [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/vivmagarwal/agentic_ai_weekend_course/blob/main/python_for_beginners/notebooks/05_dictionaries_and_conditionals.ipynb)
 

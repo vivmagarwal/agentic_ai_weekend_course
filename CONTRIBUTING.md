@@ -162,8 +162,9 @@ Every notebook follows a **teach-practice-teach-practice** rhythm:
 - Clear problem statement
 - Expected output explicitly stated
 - Inline comments explaining "why", not just "what"
+- Hints collapsed using `<details>` and `<summary>` tags (provided BEFORE solutions)
 - Solutions collapsed using `<details>` and `<summary>` tags
-- It is important that solutions are provided after every activity
+- It is important that hints AND solutions are provided after every activity
 - "Why this works" explanation in each solution
 
 **Quality Standards**:
@@ -248,6 +249,41 @@ When creating notebooks that use AI models (Gemini, OpenAI, etc.):
 - **Active voice**: "Create a function" not "A function should be created"
 - **No jargon without explanation**: Define technical terms when introduced
 - **Encouraging tone**: Learning-focused, not intimidating
+
+### Hints Format
+
+Every activity must include hints BEFORE the solution. Hints provide generous syntax and logic guidance:
+
+```markdown
+<details>
+<summary>Hints</summary>
+
+**Logic Hints:**
+- [Step-by-step logical approach]
+- [What operations/concepts are needed]
+
+**Syntax Hints:**
+\`\`\`python
+# If looping is needed:
+for item in collection:
+    # do something with item
+
+# If f-strings are needed:
+f"Hello, {variable_name}!"
+
+# If list operations are needed:
+my_list.append(item)
+len(my_list)
+\`\`\`
+
+</details>
+```
+
+**What to include in hints:**
+- Logical steps without giving away the full solution
+- Syntax for ALL constructs needed (loops, conditionals, f-strings, methods, etc.)
+- Code snippets showing the pattern/structure required
+- Be generous—beginners need syntax reminders!
 
 ### Solution Format
 
@@ -343,11 +379,29 @@ When we get input from users, it's **always a string**. If we want to do math op
 - `str()` - Converts to string (text)
 ```
 
-**Example/Solution Pattern**:
+**Example/Hints/Solution Pattern**:
 ```markdown
 ### **Example 1: Creating a Simple List**
 
 [Problem description and code cell]
+
+<details>
+<summary>Hints</summary>
+
+**Logic Hints:**
+- Think about what data type can hold multiple items
+- Remember lists use square brackets
+
+**Syntax Hints:**
+\`\`\`python
+# Creating a list:
+my_list = [item1, item2, item3]
+
+# Accessing items by index:
+my_list[0]  # first item
+\`\`\`
+
+</details>
 
 <details>
 <summary>Solution</summary>
@@ -370,6 +424,8 @@ Before submitting:
 - [ ] Teaching plan exists and is up-to-date
 - [ ] All cells execute without errors
 - [ ] Outputs match expected results
+- [ ] Hints are collapsed by default (before each solution)
+- [ ] Hints include both logic AND syntax guidance
 - [ ] Solutions are collapsed by default
 - [ ] "Why this works" included in every solution
 - [ ] Real-world AI/RAG/Agentic connections throughout

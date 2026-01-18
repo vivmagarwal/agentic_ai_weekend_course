@@ -194,6 +194,32 @@ The course follows a progressive learning path, with each notebook building on p
 
 ---
 
+### Notebook 4.2: Revision Practice - AI Image Prompt Builder
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/vivmagarwal/agentic_ai_weekend_course/blob/main/python_for_beginners/notebooks/04.02_revision_practice.ipynb)
+
+**Topics Covered:**
+- Hands-on practice consolidating skills from Notebooks 01-04.01
+- Building structured prompts using string operations
+- Wrapping logic in reusable functions
+- Generating AI images with the Gemini API
+- Displaying images in notebooks
+
+**Learning Objectives:**
+- Reinforce string manipulation and f-strings
+- Practice function definition with parameters and return statements
+- Apply API setup patterns to image generation
+- Combine user input with AI-powered output
+
+**AI/RAG/Agentic Applications:**
+- Prompt engineering for image generation
+- Building reusable prompt construction functions
+- Integrating with multimodal AI APIs
+- Creating AI-powered creative tools
+
+**Note:** This is a revision-only notebook with all learner activities and no instructor demonstrations - pure practice!
+
+---
+
 ### Notebook 5: Dictionaries and Conditionals
 [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/vivmagarwal/agentic_ai_weekend_course/blob/main/python_for_beginners/notebooks/05_dictionaries_and_conditionals.ipynb)
 
